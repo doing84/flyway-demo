@@ -1,0 +1,19 @@
+name: Flyway Migration
+
+on:
+  push:
+    paths:
+      - 'sql/**'
+
+jobs:
+  flyway-migrate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Flyway using config file
+        uses: docker://flyway/flyway:9.22.3
+        with:
+          args: -configFiles=./flyway.conf migrate
