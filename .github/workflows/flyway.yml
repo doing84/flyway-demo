@@ -13,7 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run Flyway using config file
+      - name: Run Flyway migrations
         uses: docker://flyway/flyway:9.22.3
         with:
-          args: -configFiles=./flyway.conf migrate
+          args: >
+            -url=${{ secrets.FLYWAY_URL }}
+            -user=${{ secrets.FLYWAY_USER }}
+            -password=${{ secrets.FLYWAY_PASSWORD }}
+            -locations=filesystem:./sql
+            migrate
